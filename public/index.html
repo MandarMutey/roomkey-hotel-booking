@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Mandar Mutey">
+  <title>Roomkey - Hotel Room Booking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="by"><span class="avatar">MM</span>Mandar Mutey<span class="sep">·</span>Mini Project</p>
+      <h1>Roomkey</h1>
+      <p>Know which rooms are free, who is staying and what is coming up.</p>
+    </div>
+    <div class="top-actions">
+      <button class="btn" id="addRoomBtn">Add room</button>
+      <button class="btn primary" id="newBookingBtn">New booking</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="health" aria-label="Occupancy">
+      <div class="health-head">
+        <h2>Occupancy today</h2>
+        <p id="healthText">Loading…</p>
+      </div>
+      <div class="bar" id="healthBar" role="img" aria-label="Share of rooms occupied today"></div>
+      <ul class="legend">
+        <li><i class="dot ok"></i><span id="freeCount">0</span> available</li>
+        <li><i class="dot out"></i><span id="busyCount">0</span> occupied</li>
+      </ul>
+      <dl class="totals">
+        <div><dt>Rooms</dt><dd id="tRooms">0</dd></div>
+        <div><dt>Upcoming stays</dt><dd id="tUpcoming">0</dd></div>
+        <div><dt>Booked value</dt><dd id="tValue">₹0</dd></div>
+      </dl>
+    </section>
+
+    <div class="views" role="tablist">
+      <button class="view on" data-view="rooms" role="tab">Rooms</button>
+      <button class="view" data-view="bookings" role="tab">Bookings</button>
+    </div>
+
+    <!-- ROOMS VIEW -->
+    <section id="roomsView">
+      <div class="tools">
+        <input type="search" id="roomSearch" placeholder="Search by room number" aria-label="Search rooms">
+        <select id="roomType" aria-label="Filter by room type">
+          <option value="">All types</option><option>Single</option><option>Double</option><option>Suite</option>
+        </select>
+        <label class="inline">Check-in <input type="date" id="fromDate"></label>
+        <label class="inline">Check-out <input type="date" id="toDate"></label>
+        <button class="btn" id="clearDates" hidden>Clear dates</button>
+      </div>
+      <p class="hint" id="roomHint"></p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Room</th><th>Type</th><th class="num">Price / night</th><th>Status</th><th></th></tr></thead>
+          <tbody id="roomRows"></tbody>
+        </table>
+        <p class="empty" id="roomEmpty" hidden></p>
+      </div>
+    </section>
+
+    <!-- BOOKINGS VIEW -->
+    <section id="bookingsView" hidden>
+      <div class="tools">
+        <input type="search" id="bookingSearch" placeholder="Search by guest name or room" aria-label="Search bookings">
+        <div class="chips" role="group" aria-label="Filter bookings">
+          <button class="chip on" data-status="">All</button>
+          <button class="chip" data-status="current">Staying now</button>
+          <button class="chip" data-status="upcoming">Upcoming</button>
+          <button class="chip" data-status="past">Past</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Guest</th><th>Room</th><th>Check-in</th><th>Check-out</th><th class="num">Nights</th><th class="num">Total</th><th>Status</th><th></th></tr></thead>
+          <tbody id="bookingRows"></tbody>
+        </table>
+        <p class="empty" id="bookingEmpty" hidden></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">Mini project by Mandar Mutey · Hotel Room Booking System</footer>
+
+  <dialog id="dlg">
+    <form id="form" novalidate>
+      <h3 id="dlgTitle">Add room</h3>
+      <div data-mode="room">
+        <label>Room number<input name="room_no" maxlength="10" placeholder="e.g. 204"></label>
+      </div>
+      <div class="two" data-mode="room">
+        <label>Room type<select name="type"><option>Single</option><option>Double</option><option>Suite</option></select></label>
+        <label>Price per night (₹)<input name="price" inputmode="decimal"></label>
+      </div>
+      <div data-mode="book edit">
+        <label>Room<select name="room_id" id="roomPick"></select></label>
+      </div>
+      <div data-mode="book edit">
+        <label>Guest name<input name="guest_name" maxlength="60"></label>
+      </div>
+      <div class="two" data-mode="book edit">
+        <label>Check-in<input type="date" name="check_in"></label>
+        <label>Check-out<input type="date" name="check_out"></label>
+      </div>
+      <p class="quote" id="quote" hidden></p>
+      <p class="form-error" id="formError" role="alert"></p>
+      <div class="actions">
+        <button type="button" class="btn" id="cancel">Cancel</button>
+        <button class="btn primary" id="save">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
